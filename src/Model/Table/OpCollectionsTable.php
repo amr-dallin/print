@@ -46,6 +46,15 @@ class OpCollectionsTable extends Table
         $this->hasMany('OpServices', [
             'foreignKey' => 'op_collection_id',
         ]);
+
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'date_created' => 'new',
+                    'date_modified' => 'always'
+                ]
+            ]
+        ]);
     }
 
     /**
@@ -57,35 +66,12 @@ class OpCollectionsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->date('date_from')
-            ->requirePresence('date_from', 'create')
-            ->notEmptyDate('date_from');
-
-        $validator
-            ->date('date_to')
-            ->requirePresence('date_to', 'create')
-            ->notEmptyDate('date_to');
-
-        $validator
             ->date('date_collection')
-            ->allowEmptyDate('date_collection');
-
-        $validator
-            ->boolean('confirmed')
-            ->notEmptyString('confirmed');
+            ->notEmptyDate('date_collection');
 
         $validator
             ->scalar('notes')
             ->allowEmptyString('notes');
-
-        $validator
-            ->dateTime('date_created')
-            ->requirePresence('date_created', 'create')
-            ->notEmptyDateTime('date_created');
-
-        $validator
-            ->dateTime('date_modified')
-            ->allowEmptyDateTime('date_modified');
 
         return $validator;
     }

@@ -45,6 +45,7 @@ return static function (RouteBuilder $routes) {
     $routes->setRouteClass(DashedRoute::class);
 
     $routes->prefix('founder', function (RouteBuilder $builder) {
+        $builder->setExtensions(['json', 'pdf']);
         $builder->fallbacks();
     });
 

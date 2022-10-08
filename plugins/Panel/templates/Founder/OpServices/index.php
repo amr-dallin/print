@@ -87,7 +87,7 @@ $(document).ready(function() {
                                 </td>
                                 <td class="text-center"><?= $this->OpServices->typeList()[$opService->type] ?></td>
                                 <td class="text-center"><?= $this->OpServices->methodList()[$opService->method] ?></td>
-                                <td class="text-right"><?= $this->Number->currency($opService->amount, 'UZS') ?></td>
+                                <td class="text-right"><?= $this->Number->currency($opService->amount, 'UZS', ['locale' => 'uz_UZ']) ?></td>
                                 <td><?= $opService->notes ?></td>
                                 <td class="text-center">
                                     <?php

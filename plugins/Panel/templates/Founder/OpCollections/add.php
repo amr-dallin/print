@@ -14,45 +14,14 @@ $menu['op']['collections'][0] = true;
 echo $this->element('navigation', ['menu' => $menu]);
 $this->end();
 
-echo $this->Html->css([
-    'formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker'
-], ['block' => true]);
-echo $this->Html->script([
-    'formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker'
-], ['block' => true]);
+echo $this->Html->css([], ['block' => true]);
+echo $this->Html->script([], ['block' => true]);
 ?>
 
 <?php $this->start('script-code'); ?>
 <script>
 $(document).ready(function() {
-    $('#js-date-range').daterangepicker(
-    {
-        "showDropdowns": true,
-        "showWeekNumbers": true,
-        "showISOWeekNumbers": true,
-        "autoApply": true,
-        "maxSpan":
-        {
-            "days": 7
-        },
-        ranges:
-        {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        "alwaysShowCalendars": true,
-        "startDate": "<?= date('d.m.Y') ?>",
-        "endDate": "<?= date('d.m.Y') ?>",
-        "applyButtonClasses": "btn-default shadow-0",
-        "cancelClass": "btn-success shadow-0"
-    }, function(start, end, label)
-        {
-            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-        });
+    
 });
 </script>
 <?php $this->end(); ?>
@@ -72,21 +41,20 @@ $(document).ready(function() {
                     <div class="row mb-3">
                         <div class="col-12">
                             <?php
-                            echo $this->Form->control('date_range', [
-                                'id' => 'js-date-range',
-                                'label' => __d('panel', 'Date range') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
+                            echo $this->Form->control('date_collection', [
+                                'value' => date("d.m.Y"),
+                                'label' => __d('panel', 'Date collection') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
                                 'escape' => false
+                            ]);
+                            echo $this->Form->control('notes', [
+                                'label' => __d('panel', 'Notes'),
+                                'rows' => 2,
+                                'placeholder' => __d('panel', 'Notes')
                             ]);
                             ?>
                         </div>
                     </div>
-                    <?php
-                    echo $this->Form->control('notes', [
-                        'label' => __d('panel', 'Notes'),
-                        'rows' => 2,
-                        'placeholder' => __d('panel', 'Notes')
-                    ]);
-                    ?>
+
                 </div>
             </div>
         </div>

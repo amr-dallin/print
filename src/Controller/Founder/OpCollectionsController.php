@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Founder;
 
 use App\Controller\AppController;
+use App\Service\OpCollectionsService;
 
 /**
  * OpCollections Controller
@@ -20,7 +21,8 @@ class OpCollectionsController extends AppController
      */
     public function index()
     {
-        $opCollections = $this->paginate($this->OpCollections);
+        $opCollections = $this->OpCollections->find()
+            ->contain('OpServices');
 
         $this->set(compact('opCollections'));
     }
@@ -38,6 +40,10 @@ class OpCollectionsController extends AppController
             'contain' => ['OpServices'],
         ]);
 
+        $this->viewBuilder()->setOption('pdfConfig', [
+            'filename' => 'op_collections_' . $opCollection->id . '.pdf'
+        ]);
+
         $this->set(compact('opCollection'));
     }
 
@@ -46,12 +52,13 @@ class OpCollectionsController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(OpCollectionsService $opCollections)
     {
         $opCollection = $this->OpCollections->newEmptyEntity();
         if ($this->request->is('post')) {
             $opCollection = $this->OpCollections->patchEntity($opCollection, $this->request->getData());
-            if ($this->OpCollections->save($opCollection)) {
+
+            if ($opCollections->save($opCollection)) {
                 $this->Flash->success(__('The op collection has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -78,7 +85,7 @@ class OpCollectionsController extends AppController
             if ($this->OpCollections->save($opCollection)) {
                 $this->Flash->success(__('The op collection has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $id]);
             }
             $this->Flash->error(__('The op collection could not be saved. Please, try again.'));
         }

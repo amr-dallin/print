@@ -85,4 +85,11 @@ class OpServicesTable extends Table
 
         return $validator;
     }
+
+    public function findIsNullCollection(Query $query, Array $options)
+    {
+        return $query->where([
+            $this->aliasField('op_collection_id is') => null
+        ]);
+    }
 }

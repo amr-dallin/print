@@ -228,3 +228,20 @@ define('OPERATION_PRINTING_SERVICES_METHOD_TRANSFER', '2');
 define('OPERATION_PRINTING_SERVICES_TYPE_PRINTING', '1');
 define('OPERATION_PRINTING_SERVICES_TYPE_SCANNING', '2');
 define('OPERATION_PRINTING_SERVICES_TYPE_COPYING', '3');
+
+Configure::write('CakePdf', [
+    'engine' => [
+        'options' => [
+            'print-media-type' => false,
+            'images' => true,
+        ],
+        'className' => 'CakePdf.WkHtmlToPdf'
+    ],
+    'margin' => [
+        'bottom' => 14,
+        'left' => 10,
+        'right' => 10,
+        'top' => 14
+    ],
+    'download' => false
+]);

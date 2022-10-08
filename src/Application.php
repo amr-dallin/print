@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Service\OpCollectionsService;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -74,6 +75,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         $this->addPlugin('Authentication');
         $this->addPlugin('Panel');
+        $this->addPlugin('CakePdf');
     }
 
     /**
@@ -174,7 +176,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function services(ContainerInterface $container): void
     {
-        //$container->add(PostsService::class);
+        $container->add(OpCollectionsService::class);
     }
 
     /**

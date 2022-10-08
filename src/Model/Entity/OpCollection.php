@@ -11,8 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property \Cake\I18n\FrozenDate $date_from
  * @property \Cake\I18n\FrozenDate $date_to
- * @property \Cake\I18n\FrozenDate|null $date_collection
- * @property bool $confirmed
+ * @property \Cake\I18n\FrozenDate $date_collection
  * @property string|null $notes
  * @property \Cake\I18n\FrozenTime $date_created
  * @property \Cake\I18n\FrozenTime|null $date_modified
@@ -34,7 +33,6 @@ class OpCollection extends Entity
         'date_from' => true,
         'date_to' => true,
         'date_collection' => true,
-        'confirmed' => true,
         'notes' => true,
         'date_created' => true,
         'date_modified' => true,

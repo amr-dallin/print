@@ -26,7 +26,7 @@ class OpServicesController extends AppController
      */
     public function index()
     {
-        $opServices = $this->paginate($this->OpServices);
+        $opServices = $this->OpServices->find('isNullCollection');
 
         $this->set(compact('opServices'));
     }

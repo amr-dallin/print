@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Founder;
 
 use App\Controller\AppController;
+use App\Service\OpServicesService;
 use Cake\Event\EventInterface;
 
 /**
@@ -17,6 +18,13 @@ class OpServicesController extends AppController
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
+    }
+
+    public function analitics(OpServicesService $opServices)
+    {
+        $opServices = $opServices->getAnalitics($this->request->getQuery('range'));
+
+        $this->set(compact('opServices'));
     }
 
     /**

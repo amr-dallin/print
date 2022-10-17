@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Service\OpCollectionsService;
+use App\Service\OpServicesService;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -177,6 +178,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     public function services(ContainerInterface $container): void
     {
         $container->add(OpCollectionsService::class);
+        $container->add(OpServicesService::class);
     }
 
     /**

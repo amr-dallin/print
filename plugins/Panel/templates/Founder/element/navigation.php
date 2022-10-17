@@ -54,6 +54,19 @@
                             );
                             ?>
                         </li>
+                        <li <?php if (isset($menu['op']['services'][2])) echo 'class="active"'; ?>>
+                            <?php
+                            echo $this->Html->link(
+                                $this->Html->tag(
+                                    'span',
+                                    __d('panel', 'Analitics'),
+                                    ['class' => 'nav-link-text']
+                                ),
+                                ['controller' => 'OpServices', 'action' => 'analitics'],
+                                ['escape' => false, 'title' => __d('panel', 'Create operational printing services analitics'), 'data-filter-tags' => __d('panel', 'create operational printing services analitics')]
+                            );
+                            ?>
+                        </li>
                     </ul>
                 </li>
                 <!-- End operational printing services -->

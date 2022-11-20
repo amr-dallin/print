@@ -71,7 +71,7 @@ $(document).ready(function() {
                             <tr>
                                 <td class="text-center">
                                     <?php
-                                    echo $this->Form->postLink(
+                                    /*echo $this->Form->postLink(
                                         $this->Html->tag('i', '', ['class' => 'fal fa-trash']),
                                         $this->Url->build(['action' => 'delete', h($opService->id)]),
                                         [
@@ -79,7 +79,7 @@ $(document).ready(function() {
                                             'data-title' => __d('panel', 'Are you sure you want to delete the operational printing service?'),
                                             'data-message' => __d('panel', 'Deletion eliminates the possibility of data recovery.')
                                         ]
-                                    );
+                                    );*/
                                     ?>
                                 </td>
                                 <td data-order="<?= $opService->date_of_service->format('c') ?>">

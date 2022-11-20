@@ -28,11 +28,11 @@ $(document).ready(function() {
             }
         },
         columnDefs: [{
-            targets: [0, 5, 6],
+            targets: [4, 5],
             orderable: false
         }],
         pageLength: 50,
-        order: [[1, 'asc']]
+        order: [[0, 'asc']]
     });
 });
 </script>
@@ -95,7 +95,6 @@ $(document).ready(function() {
             <table class="table table-bordered table-hover table-striped w-100 datatable">
                 <thead>
                     <tr>
-                        <th class="all"></th>
                         <th class="all"><?= __d('panel', 'Date') ?></th>
                         <th class="all text-center"><?= __d('panel', 'Type') ?></th>
                         <th class="all text-center"><?= __d('panel', 'Method') ?></th>
@@ -107,19 +106,6 @@ $(document).ready(function() {
                 <tbody>
                     <?php foreach ($opCollection->op_services as $opService): ?>
                     <tr>
-                        <td class="text-center">
-                            <?php
-                            /*echo $this->Form->postLink(
-                                $this->Html->tag('i', '', ['class' => 'fal fa-trash']),
-                                $this->Url->build(['action' => 'delete', h($opService->id)]),
-                                [
-                                    'class' => 'color-danger-900',
-                                    'data-title' => __d('panel', 'Are you sure you want to delete the operational printing service?'),
-                                    'data-message' => __d('panel', 'Deletion eliminates the possibility of data recovery.')
-                                ]
-                            );*/
-                            ?>
-                        </td>
                         <td data-order="<?= $opService->date_of_service->format('c') ?>">
                             <?= $opService->date_of_service->format('d.m.Y') ?>
                         </td>

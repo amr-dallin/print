@@ -49,7 +49,7 @@ return [
     'App' => [
         'namespace' => 'App',
         'encoding' => env('APP_ENCODING', 'UTF-8'),
-        'defaultLocale' => env('APP_DEFAULT_LOCALE', 'en_US'),
+        'defaultLocale' => env('APP_DEFAULT_LOCALE', 'ru_RU'),
         'defaultTimezone' => env('APP_DEFAULT_TIMEZONE', 'Asia/Tashkent'),
         'base' => false,
         'dir' => 'src',

@@ -225,13 +225,23 @@
                                 <div class="modal-body">
                                     <ul class="app-list w-auto h-auto p-0 text-left">
                                         <li>
-                                            <a href="/" class="app-list-item text-white border-0 m-0">
+                                            <a href="<?= $this->Url->build(['controller' => 'OpServices', 'action' => 'index', 'prefix' => 'Founder']) ?>" class="app-list-item text-white border-0 m-0">
                                                 <div class="icon-stack">
-                                                    <i class="base base-7 icon-stack-3x opacity-100 color-primary-500 "></i>
-                                                    <i class="base base-7 icon-stack-2x opacity-100 color-primary-300 "></i>
-                                                    <i class="fal fa-home icon-stack-1x opacity-100 color-white"></i>
+                                                    <i class="base base-7 icon-stack-3x opacity-100 color-success-500 "></i>
+                                                    <i class="base base-7 icon-stack-2x opacity-100 color-success-300 "></i>
+                                                    <i class="fal fa-print icon-stack-1x opacity-100 color-white"></i>
                                                 </div>
-                                                <span class="app-list-name"><?= __d('panel', 'Home') ?></span>
+                                                <span class="app-list-name"><?= __d('panel', 'OP') ?></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<?= $this->Url->build(['controller' => 'SystemicPages', 'action' => 'press', 'prefix' => 'Founder']) ?>" class="app-list-item text-white border-0 m-0">
+                                                <div class="icon-stack">
+                                                    <i class="base base-7 icon-stack-3x opacity-100 color-warning-500 "></i>
+                                                    <i class="base base-7 icon-stack-2x opacity-100 color-warning-300 "></i>
+                                                    <i class="fal fa-print icon-stack-1x opacity-100 color-white"></i>
+                                                </div>
+                                                <span class="app-list-name"><?= __d('panel', 'Press') ?></span>
                                             </a>
                                         </li>
                                     </ul>

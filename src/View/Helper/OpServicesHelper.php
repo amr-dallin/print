@@ -11,7 +11,7 @@ use Cake\View\View;
  */
 class OpServicesHelper extends Helper
 {
-    public $helpers = ['ContractOrders', 'Html', 'Number'];
+    public $helpers = ['Html', 'Number'];
 
     /**
      * Default configuration.

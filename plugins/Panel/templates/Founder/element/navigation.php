@@ -117,6 +117,60 @@
             </ul>
         </li>
     
-        
+        <li <?php if (isset($menu['cash_register'])) echo 'class="active"'; ?>>
+            <?php
+            echo $this->Html->link(
+                $this->Html->tag('i', '', ['class' => 'fa-lg fa-fw fal fa-cash-register']) .
+                    $this->Html->tag('span', __d('panel', 'Cash register'), ['class' => 'nav-link-text']),
+                '#',
+                [
+                    'escape' => false,
+                    'title' => __d('panel', 'Cash register'),
+                    'data-filter-tags' => __d('panel', 'cash register')
+                ]
+            );
+            ?>
+            <ul>
+                <li <?php if (isset($menu['cash_register']['statistics'])) echo 'class="active"'; ?>>
+                    <?php
+                    echo $this->Html->link(
+                        $this->Html->tag('span', __d('panel', 'Statistics'), ['class' => 'nav-link-text']),
+                            ['controller' => 'SystemicPages', 'action' => 'cashRegisterStatistics'],
+                            [
+                                'escape' => false,
+                                'title' => __d('panel', 'Cash register statistics'),
+                                'data-filter-tags' => __d('panel', 'cash register statistics')
+                            ]
+                        );
+                    ?>
+                </li>
+                <li <?php if (isset($menu['cash_register']['expenses'])) echo 'class="active"'; ?>>
+                    <?php
+                    echo $this->Html->link(
+                        $this->Html->tag('span', __d('panel', 'Expenses'), ['class' => 'nav-link-text']),
+                            ['controller' => 'Expenses', 'action' => 'index'],
+                            [
+                                'escape' => false,
+                                'title' => __d('panel', 'Cash register expenses'),
+                                'data-filter-tags' => __d('panel', 'cash register expenses')
+                            ]
+                        );
+                    ?>
+                </li>
+                <li <?php if (isset($menu['cash_register']['receipts'])) echo 'class="active"'; ?>>
+                    <?php
+                    echo $this->Html->link(
+                        $this->Html->tag('span', __d('panel', 'Receipts'), ['class' => 'nav-link-text']),
+                            ['controller' => 'Receipts', 'action' => 'index'],
+                            [
+                                'escape' => false,
+                                'title' => __d('panel', 'Cash register receipts'),
+                                'data-filter-tags' => __d('panel', 'cash register receipts')
+                            ]
+                        );
+                    ?>
+                </li>
+            </ul>
+        </li>
 
     </ul>

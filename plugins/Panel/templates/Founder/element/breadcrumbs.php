@@ -1,8 +1,11 @@
 <ol class="breadcrumb page-breadcrumb">
     <?php
-    $dashboardValue = $this->Html->link(__d('panel', 'Dashboard'), ['controller' => 'SystemicPages', 'action' => 'dashboard']);
-    if (($this->request->getParam('controller') == 'SystemicPages') && ($this->request->getParam('action') == 'dashboard')) {
-        $dashboardValue = __d('panel', 'Dashboard');
+    $dashboardValue = $this->Html->link(
+        __d('panel', 'Dashboard'),
+        ['controller' => 'SystemicPages', 'action' => 'dashboard']
+    );
+    if ($this->request->getParam('controller') == 'SystemicPages') {
+        $dashboardValue = '';
     }
 
     echo $this->Html->tag('li', $dashboardValue, ['class' => 'breadcrumb-item']);

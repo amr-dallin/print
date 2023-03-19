@@ -16,8 +16,22 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Service\ActionPricesService;
+use App\Service\ConsumablePricesService;
+use App\Service\ExpensesService;
+use App\Service\LaserMachinesService;
 use App\Service\OpCollectionsService;
 use App\Service\OpServicesService;
+use App\Service\OrderProductsService;
+use App\Service\OrdersService;
+use App\Service\PaperPricesService;
+use App\Service\ProductProcessesService;
+use App\Service\ProcessActionsService;
+use App\Service\ProcessConsumablesService;
+use App\Service\ProcessLaserMachinesService;
+use App\Service\ProcessPapersService;
+use App\Service\PurchasesService;
+use App\Service\StorageService;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -177,8 +191,22 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function services(ContainerInterface $container): void
     {
+        $container->add(ActionPricesService::class);
+        $container->add(ConsumablePricesService::class);
+        $container->add(ExpensesService::class);
+        $container->add(LaserMachinesService::class);
         $container->add(OpCollectionsService::class);
         $container->add(OpServicesService::class);
+        $container->add(OrderProductsService::class);
+        $container->add(OrdersService::class);
+        $container->add(PaperPricesService::class);
+        $container->add(ProductProcessesService::class);
+        $container->add(ProcessActionsService::class);
+        $container->add(ProcessConsumablesService::class);
+        $container->add(ProcessLaserMachinesService::class);
+        $container->add(ProcessPapersService::class);
+        $container->add(PurchasesService::class);
+        $container->add(StorageService::class);
     }
 
     /**

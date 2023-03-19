@@ -44,6 +44,30 @@ class AppView extends View
             'errorClass' => 'form-control is-invalid'
         ]);
 
+        $this->loadHelper('ActionPrices');
+        $this->loadHelper('Actions');
+        $this->loadHelper('CashRegister');
+        $this->loadHelper('Clients');
+        $this->loadHelper('Consumables');
+        $this->loadHelper('ConsumablePrices');
+        $this->loadHelper('Expenses');
+        $this->loadHelper('LaserMachineRates');
+        $this->loadHelper('LaserMachines');
+        $this->loadHelper('Materials');
         $this->loadHelper('OpServices');
+        $this->loadHelper('OrderProducts');
+        $this->loadHelper('Orders');
+        $this->loadHelper('PaperDensities');
+        $this->loadHelper('PaperPrices');
+        $this->loadHelper('Papers');
+        $this->loadHelper('PhoneNumbers');
+        $this->loadHelper('ProcessActions');
+        $this->loadHelper('ProcessConsumables');
+        $this->loadHelper('ProcessLaserMachines');
+        $this->loadHelper('ProcessPapers');
+        $this->loadHelper('ProductProcesses');
+        $this->loadHelper('PurchaseEntities');
+        $this->loadHelper('Purchases');
+        $this->loadHelper('Storage');
     }
 }

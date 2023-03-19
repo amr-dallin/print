@@ -148,7 +148,7 @@
                     <?php
                     echo $this->Html->link(
                         $this->Html->tag('span', __d('panel', 'Expenses'), ['class' => 'nav-link-text']),
-                            ['controller' => 'Expenses', 'action' => 'index'],
+                            ['controller' => 'OpExpenses', 'action' => 'index'],
                             [
                                 'escape' => false,
                                 'title' => __d('panel', 'Cash register expenses'),
@@ -161,7 +161,7 @@
                     <?php
                     echo $this->Html->link(
                         $this->Html->tag('span', __d('panel', 'Receipts'), ['class' => 'nav-link-text']),
-                            ['controller' => 'Receipts', 'action' => 'index'],
+                            ['controller' => 'OpReceipts', 'action' => 'index'],
                             [
                                 'escape' => false,
                                 'title' => __d('panel', 'Cash register receipts'),

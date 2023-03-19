@@ -20,8 +20,9 @@ class OpReceiptsController extends AppController
      */
     public function index()
     {
+        $opReceipt = $this->OpReceipts->newEmptyEntity();
         $opReceipts = $this->OpReceipts->find();
-        $this->set(compact('opReceipts'));
+        $this->set(compact('opReceipt', 'opReceipts'));
     }
 
     /**

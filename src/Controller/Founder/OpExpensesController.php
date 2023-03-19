@@ -20,8 +20,9 @@ class OpExpensesController extends AppController
      */
     public function index()
     {
+        $opExpense = $this->OpExpenses->newEmptyEntity();
         $opExpenses = $this->OpExpenses->find();
-        $this->set(compact('opExpenses'));
+        $this->set(compact('opExpense', 'opExpenses'));
     }
 
     /**

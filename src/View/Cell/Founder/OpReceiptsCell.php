@@ -44,6 +44,6 @@ class OpReceiptsCell extends Cell
             ->order(['OpReceipts.date_receipted' => 'DESC'])
             ->limit($this->limit);
 
-        $this->set('opReceipts', $opReceipts);
+        $this->set('opReceipts', $opReceipts->toArray());
     }
 }

@@ -11,11 +11,7 @@
         <tbody>
             <?php foreach($opReceipts as $opReceipt): ?>
             <tr>
-                <td>
-                    <div class="d-block text-truncate" style="max-width: 200px;">
-                        <?= h($opReceipt->title) ?>
-                    </div>
-                </td>
+                <td><?= h($opReceipt->title) ?></td>
                 <td class="text-center"><?= $opReceipt->date_receipted->format('d.m.Y') ?></td>
                 <td class="text-right">
                     <?= $this->Number->currency($opReceipt->amount, 'UZS'); ?>

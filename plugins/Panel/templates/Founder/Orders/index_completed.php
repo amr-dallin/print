@@ -75,7 +75,9 @@ $(document).ready(function() {
                                 <td><?= h($order->title) ?></td>
                                 <td class="text-center"><?= count($order->order_products) ?></td>
                                 <td><?= $order->date_deadline->format('d.m.Y H:i:s') ?></td>
-                                <td><?= $order->date_completed->format('d.m.Y H:i:s') ?></td>
+                                <td data-order="<?= $order->date_completed->format('c') ?>">
+                                    <?= $order->date_completed->format('d.m.Y H:i:s') ?>
+                                </td>
                                 <td class="text-center">
                                     <?php
                                     echo $this->Html->link(

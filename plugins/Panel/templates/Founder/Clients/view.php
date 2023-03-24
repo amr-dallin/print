@@ -184,7 +184,9 @@ $(document).ready(function() {
                                 <td class="text-center"><?= h($order->unique_id) ?></td>
                                 <td><?= h($order->title) ?></td>
                                 <td class="text-center"><?= count($order->order_products) ?></td>
-                                <td><?= $order->date_accepted->format('d.m.Y H:i') ?></td>
+                                <td data-order="<?= $order->date_accepted->format('c') ?>">
+                                    <?= $order->date_accepted->format('d.m.Y H:i') ?>
+                                </td>
                                 <td><?= $order->date_deadline->format('d.m.Y H:i') ?></td>
                                 <td>
                                     <?php

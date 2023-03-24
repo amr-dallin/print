@@ -11,11 +11,7 @@
         <tbody>
             <?php foreach($opExpenses as $opExpense): ?>
             <tr>
-                <td>
-                    <div class="d-block text-truncate" style="max-width: 200px;">
-                        <?= h($opExpense->title) ?>
-                    </div>
-                </td>
+                <td><?= h($opExpense->title) ?></td>
                 <td class="text-center"><?= $opExpense->date_expensed->format('d.m.Y') ?></td>
                 <td class="text-right">
                     <?= $this->Number->currency($opExpense->amount, 'UZS'); ?>

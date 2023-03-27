@@ -76,16 +76,23 @@ class StorageService
         $ids = $connection->execute(
             'select `p`.`id` from ' . Inflector::dasherize($model) . ' `p`
             where
-                (
-                  select sum(`pe`.`quantity`)
-                    from `purchase_entities` `pe`
-                   where `pe`.`model` = :model and `pe`.`foreign_key` = `p`.`id`
-                ) -
-                (
-                  select sum(`e`.`quantity`)
-                    from `expenses` `e`
-                   where `e`.`model` = :model and `e`.`foreign_key` = `p`.`id`
-                ) ' . $exp . ' 0;', ['model' => $model]
+                IFNULL
+                    (
+                        (
+                            select sum(`pe`.`quantity`)
+                            from `purchase_entities` `pe`
+                            where `pe`.`model` = :model and `pe`.`foreign_key` = `p`.`id`
+                        ), 0
+
+                    ) -
+                IFNULL
+                    (
+                        (
+                            select sum(`e`.`quantity`)
+                            from `expenses` `e`
+                            where `e`.`model` = :model and `e`.`foreign_key` = `p`.`id`
+                        ), 0
+                    ) ' . $exp . ' 0;', ['model' => $model]
         )->fetchAll('assoc');
 
         $result = [];

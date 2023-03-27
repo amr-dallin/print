@@ -149,6 +149,24 @@ class OrdersController extends AppController
         $this->set(compact('contractors', 'externalClients', 'internalClients', 'order', 'orderProduct', 'productTypes'));
     }
 
+    public function document($id)
+    {
+        $order = $this->Orders->get($id, [
+            'contain' => [
+                'Clients.Representatives.PhoneNumbers',
+                'OrderProducts' => [
+                    'ProductTypes'
+                ]
+            ],
+        ]);
+
+        $this->viewBuilder()->setOption('pdfConfig', [
+            'filename' => 'order_document_' . $order->id . '.pdf'
+        ]);
+
+        $this->set('order', $order);
+    }
+
     public function inProgress(OrdersService $orders, $id)
     {
         $this->request->allowMethod(['post', 'delete']);

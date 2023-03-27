@@ -22,7 +22,7 @@ $menu['orders']['by_status'][$this->Orders->navigationSlug(h($order->status))] =
 echo $this->element('press_navigation', ['menu' => $menu]);
 $this->end();
 
-echo $this->Html->css(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle'], ['block' => true]);
+echo $this->Html->css(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle', 'page-invoice'], ['block' => true]);
 echo $this->Html->script(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle'], ['block' => true]);
 ?>
 
@@ -52,7 +52,7 @@ $(document).ready(function() {
             <?php endif; ?>
         ],
         columnDefs: [{
-            targets: [0, 6],
+            targets: [0, 8],
             orderable: false
         }],
         order: [[1, 'asc']]
@@ -678,10 +678,12 @@ $(document).ready(function() {
                                         <thead>
                                             <tr>
                                                 <th class="all"></th>
-                                                <th class="all text-center"><?= __d('panel', 'ID') ?></th>
-                                                <th class="all text-center"><?= __d('panel', 'Manufacturer') ?></th>
-                                                <th class="min-tablet text-center"><?= __d('panel', 'Product type') ?></th>
-                                                <th class="min-desktop"><?= __d('panel', 'Title') ?></th>
+                                                <th class="min-desktop text-center"><?= __d('panel', 'ID') ?></th>
+                                                <th class="min-desktop text-center"><?= __d('panel', 'Manufacturer') ?></th>
+                                                <th class="all"><?= __d('panel', 'Title') ?></th>
+                                                <th class="min-desktop text-center"><?= __d('panel', 'Product type') ?></th>
+                                                <th class="all text-center"><?= __d('panel', 'Quantity') ?></th>
+                                                <th class="min-desktop"><?= __d('panel', 'Description') ?></th>
                                                 <th class="all text-center"><?= __d('panel', 'Status') ?></th>
                                                 <th class="all"></th>
                                             </tr>
@@ -702,16 +704,15 @@ $(document).ready(function() {
                                                             ]
                                                         );
                                                     }
-
                                                     ?>
                                                 </td>
                                                 <td class="text-center"><?= h($orderProduct->unique_id) ?></td>
                                                 <td class="text-center"><?= $this->OrderProducts->typeIcon($orderProduct->type) ?></td>
-                                                <td class="text-center"><?= h($orderProduct->product_type->title) ?></td>
                                                 <td><?= h($orderProduct->title) ?></td>
-                                                <td class="text-center">
-                                                    <?= $this->OrderProducts->statusIcon($orderProduct->status) ?>
-                                                </td>
+                                                <td class="text-center"><?= h($orderProduct->product_type->title) ?></td>
+                                                <td class="text-center"><?= $orderProduct->quantity ?></td>
+                                                <td><?= h($orderProduct->description) ?></td>
+                                                <td class="text-center"><?= $this->OrderProducts->statusIcon($orderProduct->status) ?></td>
                                                 <td class="text-center">
                                                     <?php
                                                     echo $this->Html->link(
@@ -727,7 +728,207 @@ $(document).ready(function() {
                                     </table>
                                 </div>
                                 <div class="tab-pane fade" id="order-invoice-tab" role="tabpanel">
-                                    <div class="text-center text-info my-1"><?= __d('panel', 'On development stage') ?></div>
+
+                                    <div class="mb-3 text-right">
+                                        <?php
+                                        echo $this->Html->link(
+                                            $this->Html->tag('i', '', ['class' => 'fad fa-file-pdf mr-1']) . __('Order document'),
+                                            ['action' => 'document', $order->id, '_ext' => 'pdf'],
+                                            ['escape' => false, 'class' => 'btn btn-danger py-2 px-3']
+                                        );
+                                        ?>
+                                    </div>
+
+                                    <div data-size="A4" class="border">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3 class="fw-300 display-4 fw-500 color-primary-600 keep-print-font pt-4 l-h-n m-0">
+                                                    <?= __d('panel', 'ORDER') ?>
+                                                </h3>
+                                                <div class="text-dark fw-700 h1 mb-g keep-print-font">
+                                                    # <?= h($order->unique_id) ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <div class="col-sm-4 d-flex">
+                                                <div class="table-responsive">
+                                                    <table class="table table-clean table-sm align-self-end">
+                                                        <tbody>
+                                                            <?php if (!empty($order->date_accepted)): ?>
+                                                            <tr class="text-info">
+                                                                <td><?= __d('panel', 'Date accepted') ?>:</td>
+                                                                <td><?= $order->date_accepted->format('d.m.Y H:i') ?></td>
+                                                            </tr>
+                                                            <?php endif; ?>
+
+                                                            <?php if (!empty($order->date_deadline)): ?>
+                                                            <tr class="text-danger fw-700">
+                                                                <td><?= __d('panel', 'Deadline') ?>:</td>
+                                                                <td><?= $order->date_deadline->format('d.m.Y H:i') ?></td>
+                                                            </tr>
+                                                            <?php endif; ?>
+
+                                                            <?php if (!empty($order->date_completed)): ?>
+                                                            <tr class="text-success fw-700">
+                                                                <td><?= __d('panel', 'Date completed') ?>:</td>
+                                                                <td><?= $order->date_completed->format('d.m.Y H:i') ?></td>
+                                                            </tr>
+                                                            <?php endif; ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 ml-sm-auto">
+                                                <?php if($this->Orders->specifiedClient($order)): ?>
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-clean">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="fw-700"><?= __d('panel', 'Title') ?>:</td>
+                                                                <td><?= h($order->client->title) ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="fw-700"><?= __d('panel', 'Type') ?>:</td>
+                                                                <td><?= $this->Clients->typeIcon($order->client->type) ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="fw-700"><?= __d('panel', 'Fullname') ?>:</td>
+                                                                <td><?= h($order->client_full_name) ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="fw-700"><?= __d('panel', 'Telephone') ?>:</td>
+                                                                <td><?= h($order->client_telephone) ?></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+
+                                        <?php if (!empty($order->order_products)): ?>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="table-responsive">
+                                                    <table class="table mt-5">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center border-top-0 table-scale-border-bottom fw-700"></th>
+                                                                <th class="text-center border-top-0 table-scale-border-bottom fw-700"><?= __d('panel', 'Manufacturer') ?></th>
+                                                                <th class="border-top-0 table-scale-border-bottom fw-700"><?= __d('panel', 'Title') ?></th>
+                                                                <th class="border-top-0 table-scale-border-bottom fw-700"><?= __d('panel', 'Description') ?></th>
+                                                                <th class="text-right border-top-0 table-scale-border-bottom fw-700"><?= __d('panel', 'Unit cost') ?></th>
+                                                                <th class="text-center border-top-0 table-scale-border-bottom fw-700"><?= __d('panel', 'Quantity') ?></th>
+                                                                <th class="text-right border-top-0 table-scale-border-bottom fw-700"><?= __d('panel', 'Cost price') ?></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php foreach($order->order_products as $key => $orderProduct): ?>
+                                                            <tr>
+                                                                <td class="text-center fw-700"><?= $key + 1 ?></td>
+                                                                <td class="text-center"><?= $this->OrderProducts->typeIcon($orderProduct->type) ?></td>
+                                                                <td class="text-left strong"><?= h($orderProduct->title) ?></td>
+                                                                <td class="text-left"><?= h($orderProduct->description) ?></td>
+                                                                <td class="text-right">
+                                                                    <?php
+                                                                    echo $this->Number->currency(
+                                                                        $this->OrderProducts->costPriceOfOneCopy($orderProduct),
+                                                                        'UZS'
+                                                                    );
+                                                                    ?>
+                                                                </td>
+                                                                <td class="text-center"><?= h($orderProduct->quantity) ?></td>
+                                                                <td class="text-right">
+                                                                    <?php
+                                                                    echo $this->Number->currency(
+                                                                        $orderProduct->cost_price,
+                                                                        'UZS'
+                                                                    );
+                                                                    ?>
+                                                                </td>
+                                                            </tr>
+                                                            <?php endforeach; ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 ml-sm-auto">
+                                                <table class="table table-clean">
+                                                    <tbody>
+                                                        <tr class="table-scale-border-top border-left-0 border-right-0 border-bottom-0">
+                                                            <td class="text-left keep-print-font">
+                                                                <h4 class="m-0 fw-700 h2 keep-print-font color-primary-700"><?= __d('panel', 'Cost price') ?></h4>
+                                                            </td>
+                                                            <td class="text-right keep-print-font">
+                                                                <h4 class="m-0 fw-700 h2 keep-print-font">
+                                                                    <?php
+                                                                    echo $this->Number->currency(
+                                                                        $order->cost_price,
+                                                                        'UZS'
+                                                                    );
+                                                                    ?>
+                                                                </h4>
+                                                            </td>
+                                                        </tr>
+
+                                                        <?php if($this->Orders->specifiedClient($order)): ?>
+                                                            <?php if ($this->Clients->isInternal($order->client->type)): ?>
+                                                            <tr>
+                                                                <td class="text-left keep-print-font my">
+                                                                    <h4 class="m-0 fw-700 h3 keep-print-font color-warning-700"><?= __d('panel', 'Saved price') ?></h4>
+                                                                </td>
+                                                                <td class="text-right keep-print-font">
+                                                                    <h4 class="m-0 fw-700 h3 keep-print-font">
+                                                                        <?php
+                                                                        echo $this->Number->currency(
+                                                                            $order->saved_price,
+                                                                            'UZS'
+                                                                        );
+                                                                        ?>
+                                                                    </h4>
+                                                                </td>
+                                                            </tr>
+                                                            <?php elseif ($this->Clients->isExternal($order->client->type)): ?>
+                                                            <tr>
+                                                                <td class="text-left keep-print-font my">
+                                                                    <h4 class="m-0 fw-700 h3 keep-print-font color-success-700"><?= __d('panel', 'Profit price') ?></h4>
+                                                                </td>
+                                                                <td class="text-right keep-print-font">
+                                                                    <h4 class="m-0 fw-700 h3 keep-print-font">
+                                                                        <?= $this->Orders->profitPriceView($order) ?>
+                                                                    </h4>
+                                                                </td>
+                                                            </tr>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+
+                                        <div class="height-8"></div>
+                                        
+                                        <div class="row text-dark fs-xl">
+                                            <div class="col-sm-4">
+                                                <div class="fw-700 mb-2"><?= __d('panel', 'Executor') ?>:</div>
+                                                <div class="mb-5"><?= __d('panel', 'Akhmetshin M.R.') ?></div>
+                                                <div class="">___________________________________</div>
+                                            </div>
+                                            <?php if($this->Orders->specifiedClient($order)): ?>
+                                            <div class="col-sm-4 ml-sm-auto">
+                                                <div class="fw-700 mb-2"><?= __d('panel', 'Customer') ?>:</div>
+                                                <div class="mb-5"><?= h($order->client_full_name) ?></div>
+                                                <div class="">___________________________________</div>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="height-8"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

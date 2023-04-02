@@ -175,6 +175,16 @@ class OrdersHelper extends Helper
         return $this->Number->currency($order->profit_cost, 'UZS');
     }
 
+    // Общая стоимость заказа для внешнего клиента.
+    public function totalCost($order)
+    {
+        return bcadd(
+            (string)$order->cost_price,
+            (string)$order->profit_cost,
+            4
+        );
+    }
+
     public function totalCostPrice($orders)
     {
         $totalCostPrice = (string)0;

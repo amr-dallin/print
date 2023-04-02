@@ -281,7 +281,7 @@ define('LASER_MACHINE_FULL_COLOR_TYPE', '2');
 Configure::write('CakePdf', [
     'engine' => [
         'options' => [
-            'print-media-type' => true,
+            'print-media-type' => false,
             'images' => true,
         ],
         'className' => 'CakePdf.WkHtmlToPdf'

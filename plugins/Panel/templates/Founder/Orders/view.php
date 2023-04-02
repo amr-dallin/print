@@ -22,7 +22,7 @@ $menu['orders']['by_status'][$this->Orders->navigationSlug(h($order->status))] =
 echo $this->element('press_navigation', ['menu' => $menu]);
 $this->end();
 
-echo $this->Html->css(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle', 'page-invoice'], ['block' => true]);
+echo $this->Html->css(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle'], ['block' => true]);
 echo $this->Html->script(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle'], ['block' => true]);
 ?>
 
@@ -734,82 +734,79 @@ $(document).ready(function() {
                                         echo $this->Html->link(
                                             $this->Html->tag('i', '', ['class' => 'fad fa-file-pdf mr-1']) . __('Order document'),
                                             ['action' => 'document', $order->id, '_ext' => 'pdf'],
-                                            ['escape' => false, 'class' => 'btn btn-danger py-2 px-3']
+                                            ['escape' => false, 'class' => 'btn btn-xs btn-danger py-2 px-3']
                                         );
                                         ?>
                                     </div>
 
-                                    <div data-size="A4" class="border">
+                                    <div class="border-top p-5 text-dark">
                                         <div class="row">
-                                            <div class="col-sm-12">
-                                                <h3 class="fw-300 display-4 fw-500 color-primary-600 keep-print-font pt-4 l-h-n m-0">
+                                            <div class="col-lg-12">
+                                                <div class="d-flex align-items-center mb-5">
+                                                    <h1 class="fw-500 mb-0 flex-1 position-relative">
+                                                        <?= __d('panel', 'Printing house of Bucheon University in Tashkent') ?>
+                                                        <small class="text-muted mb-0 fs-xs">
+                                                            Чиланзарский район, ул.Катартал 2, дом 38А, Tashkent 100135
+                                                        </small>
+                                                    </h1>
+                                                </div>
+                                                <h3 class="fw-300 display-4 fw-500 color-primary-600 pt-4 l-h-n m-0">
                                                     <?= __d('panel', 'ORDER') ?>
                                                 </h3>
-                                                <div class="text-dark fw-700 h1 mb-g keep-print-font">
+                                                <div class="text-dark fw-700 h1 mb-g">
                                                     # <?= h($order->unique_id) ?>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mb-4">
-                                            <div class="col-sm-4 d-flex">
-                                                <div class="table-responsive">
-                                                    <table class="table table-clean table-sm align-self-end">
-                                                        <tbody>
-                                                            <?php if (!empty($order->date_accepted)): ?>
-                                                            <tr class="text-info">
-                                                                <td><?= __d('panel', 'Date accepted') ?>:</td>
-                                                                <td><?= $order->date_accepted->format('d.m.Y H:i') ?></td>
-                                                            </tr>
-                                                            <?php endif; ?>
 
-                                                            <?php if (!empty($order->date_deadline)): ?>
-                                                            <tr class="text-danger fw-700">
-                                                                <td><?= __d('panel', 'Deadline') ?>:</td>
-                                                                <td><?= $order->date_deadline->format('d.m.Y H:i') ?></td>
-                                                            </tr>
-                                                            <?php endif; ?>
+                                        <div class="row">
+                                            <div class="col-lg-4 mb-5 mb-lg-0">
+                                                <?php if (!empty($order->date_accepted)): ?>
+                                                <dl class="row mb-0">
+                                                    <dt class="col-sm-5"><?= __d('panel', 'Date accepted') ?>:</dt>
+                                                    <dd class="col-sm-7"><?= $order->date_accepted->format('d.m.Y H:i') ?></dd>
+                                                </dl>
+                                                <?php endif; ?>
 
-                                                            <?php if (!empty($order->date_completed)): ?>
-                                                            <tr class="text-success fw-700">
-                                                                <td><?= __d('panel', 'Date completed') ?>:</td>
-                                                                <td><?= $order->date_completed->format('d.m.Y H:i') ?></td>
-                                                            </tr>
-                                                            <?php endif; ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <?php if (!empty($order->date_deadline)): ?>
+                                                <dl class="row mb-0">
+                                                    <dt class="col-sm-5"><?= __d('panel', 'Deadline') ?>:</dt>
+                                                    <dd class="col-sm-7"><?= $order->date_deadline->format('d.m.Y H:i') ?></dd>
+                                                </dl>
+                                                <?php endif; ?>
+
+                                                <?php if (!empty($order->date_completed)): ?>
+                                                <dl class="row mb-0">
+                                                    <dt class="col-sm-5"><?= __d('panel', 'Date completed') ?>:</dt>
+                                                    <dd class="col-sm-7"><?= $order->date_completed->format('d.m.Y H:i') ?></dd>
+                                                </dl>
+                                                <?php endif; ?>
                                             </div>
-                                            <div class="col-sm-4 ml-sm-auto">
+                                            <div class="col-lg-4 ml-lg-auto">
                                                 <?php if($this->Orders->specifiedClient($order)): ?>
-                                                <div class="table-responsive">
-                                                    <table class="table table-sm table-clean">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td class="fw-700"><?= __d('panel', 'Title') ?>:</td>
-                                                                <td><?= h($order->client->title) ?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="fw-700"><?= __d('panel', 'Type') ?>:</td>
-                                                                <td><?= $this->Clients->typeIcon($order->client->type) ?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="fw-700"><?= __d('panel', 'Fullname') ?>:</td>
-                                                                <td><?= h($order->client_full_name) ?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="fw-700"><?= __d('panel', 'Telephone') ?>:</td>
-                                                                <td><?= h($order->client_telephone) ?></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <dl class="row mb-0">
+                                                    <dt class="col-sm-5 col-lg-4"><?= __d('panel', 'Title') ?>:</dt>
+                                                    <dd class="col-sm-7 col-lg-8"><?= h($order->client->title) ?></dd>
+                                                </dl>
+                                                <dl class="row mb-0">
+                                                    <dt class="col-sm-5 col-lg-4"><?= __d('panel', 'Type') ?>:</dt>
+                                                    <dd class="col-sm-7 col-lg-8"><?= $this->Clients->typeIcon($order->client->type) ?></dd>
+                                                </dl>
+                                                <dl class="row mb-0">
+                                                    <dt class="col-sm-5 col-lg-4"><?= __d('panel', 'Fullname') ?>:</dt>
+                                                    <dd class="col-sm-7 col-lg-8"><?= h($order->client_full_name) ?></dd>
+                                                </dl>
+                                                <dl class="row mb-0">
+                                                    <dt class="col-sm-5 col-lg-4"><?= __d('panel', 'Telephone') ?>:</dt>
+                                                    <dd class="col-sm-7 col-lg-8"><?= h($order->client_telephone) ?></dd>
+                                                </dl>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
 
                                         <?php if (!empty($order->order_products)): ?>
                                         <div class="row">
-                                            <div class="col-sm-12">
+                                            <div class="col-12">
                                                 <div class="table-responsive">
                                                     <table class="table mt-5">
                                                         <thead>
@@ -855,15 +852,15 @@ $(document).ready(function() {
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-sm-4 ml-sm-auto">
+                                            <div class="col-lg-4 ml-sm-auto">
                                                 <table class="table table-clean">
                                                     <tbody>
                                                         <tr class="table-scale-border-top border-left-0 border-right-0 border-bottom-0">
-                                                            <td class="text-left keep-print-font">
-                                                                <h4 class="m-0 fw-700 h2 keep-print-font color-primary-700"><?= __d('panel', 'Cost price') ?></h4>
+                                                            <td class="text-left">
+                                                                <h4 class="m-0 fw-700 h2 color-primary-700"><?= __d('panel', 'Cost price') ?></h4>
                                                             </td>
-                                                            <td class="text-right keep-print-font">
-                                                                <h4 class="m-0 fw-700 h2 keep-print-font">
+                                                            <td class="text-right">
+                                                                <h4 class="m-0 fw-700 h2">
                                                                     <?php
                                                                     echo $this->Number->currency(
                                                                         $order->cost_price,
@@ -877,11 +874,11 @@ $(document).ready(function() {
                                                         <?php if($this->Orders->specifiedClient($order)): ?>
                                                             <?php if ($this->Clients->isInternal($order->client->type)): ?>
                                                             <tr>
-                                                                <td class="text-left keep-print-font my">
-                                                                    <h4 class="m-0 fw-700 h3 keep-print-font color-warning-700"><?= __d('panel', 'Saved price') ?></h4>
+                                                                <td class="text-left my">
+                                                                    <h4 class="m-0 fw-700 h3 color-warning-700"><?= __d('panel', 'Saved price') ?></h4>
                                                                 </td>
-                                                                <td class="text-right keep-print-font">
-                                                                    <h4 class="m-0 fw-700 h3 keep-print-font">
+                                                                <td class="text-right">
+                                                                    <h4 class="m-0 fw-700 h3">
                                                                         <?php
                                                                         echo $this->Number->currency(
                                                                             $order->saved_price,
@@ -893,11 +890,11 @@ $(document).ready(function() {
                                                             </tr>
                                                             <?php elseif ($this->Clients->isExternal($order->client->type)): ?>
                                                             <tr>
-                                                                <td class="text-left keep-print-font my">
-                                                                    <h4 class="m-0 fw-700 h3 keep-print-font color-success-700"><?= __d('panel', 'Profit price') ?></h4>
+                                                                <td class="text-left my">
+                                                                    <h4 class="m-0 fw-700 h3 color-success-700"><?= __d('panel', 'Profit price') ?></h4>
                                                                 </td>
-                                                                <td class="text-right keep-print-font">
-                                                                    <h4 class="m-0 fw-700 h3 keep-print-font">
+                                                                <td class="text-right">
+                                                                    <h4 class="m-0 fw-700 h3">
                                                                         <?= $this->Orders->profitPriceView($order) ?>
                                                                     </h4>
                                                                 </td>
@@ -910,18 +907,18 @@ $(document).ready(function() {
                                         </div>
                                         <?php endif; ?>
 
-                                        <div class="height-8"></div>
+                                        <div class="height-9"></div>
                                         
-                                        <div class="row text-dark fs-xl">
-                                            <div class="col-sm-4">
+                                        <div class="row fs-xl">
+                                            <div class="col-lg-4 mb-5 mb-lg-0">
                                                 <div class="fw-700 mb-2"><?= __d('panel', 'Executor') ?>:</div>
-                                                <div class="mb-5"><?= __d('panel', 'Akhmetshin M.R.') ?></div>
+                                                <div class="mb-3"><?= __d('panel', 'Akhmetshin M.R.') ?></div>
                                                 <div class="">___________________________________</div>
                                             </div>
                                             <?php if($this->Orders->specifiedClient($order)): ?>
-                                            <div class="col-sm-4 ml-sm-auto">
+                                            <div class="col-lg-4 ml-lg-auto">
                                                 <div class="fw-700 mb-2"><?= __d('panel', 'Customer') ?>:</div>
-                                                <div class="mb-5"><?= h($order->client_full_name) ?></div>
+                                                <div class="mb-3"><?= h($order->client_full_name) ?></div>
                                                 <div class="">___________________________________</div>
                                             </div>
                                             <?php endif; ?>

@@ -115,11 +115,7 @@ class OrderProductsHelper extends Helper
         }
 
         $profitPrice = bcsub(
-            bcmul(
-                (string)$orderProduct->quantity,
-                (string)$orderProduct->profit_price,
-                4
-            ),
+            $this->totalCost($orderProduct),
             (string)$orderProduct->cost_price,
             4
         );
@@ -132,6 +128,16 @@ class OrderProductsHelper extends Helper
         return bcdiv(
             (string)$orderProduct->cost_price,
             (string)$orderProduct->quantity,
+            4
+        );
+    }
+
+    // Общая стоимость изготовления продукта для внешних клиентов.
+    public function totalCost($orderProduct)
+    {
+        return bcmul(
+            (string)$orderProduct->quantity,
+            (string)$orderProduct->profit_price,
             4
         );
     }

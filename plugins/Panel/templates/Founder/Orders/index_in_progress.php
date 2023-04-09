@@ -36,7 +36,7 @@ $(document).ready(function() {
             targets: [6],
             orderable: false
         }],
-        order: [[5, 'desc']]
+        order: [[5, 'asc']]
     });
 });
 </script>
@@ -58,7 +58,7 @@ $(document).ready(function() {
                             <tr>
                                 <th class="all text-center"><?= __d('panel', 'Unique ID') ?></th>
                                 <th class="all text-center"><?= __d('panel', 'Type') ?></th>
-                                <th class="all"><?= __d('panel', 'Title') ?></th>
+                                <th class="all"><?= __d('panel', 'Client') ?></th>
                                 <th class="all text-center"><?= __d('panel', 'Products') ?></th>
                                 <th class="all"><?= __d('panel', 'Date accepted') ?></th>
                                 <th class="all"><?= __d('panel', 'Deadline') ?></th>
@@ -72,10 +72,18 @@ $(document).ready(function() {
                                 <td class="text-center">
                                     <?= $this->Clients->typeIcon($order->client->type) ?>
                                 </td>
-                                <td><?= h($order->title) ?></td>
+                                <td>
+                                    <?php
+                                    echo $this->Html->link(h($order->client->title),
+                                        ['controller' => 'Clients', 'action' => 'view', h($order->client->id)]
+                                    );
+                                    ?>
+                                </td>
                                 <td class="text-center"><?= count($order->order_products) ?></td>
                                 <td><?= $order->date_accepted->format('d.m.Y H:i:s') ?></td>
-                                <td><?= $order->date_deadline->format('d.m.Y H:i:s') ?></td>
+                                <td data-order="<?= $order->date_deadline->format('c') ?>">
+                                    <?= $order->date_deadline->format('d.m.Y H:i:s') ?>
+                                </td>
                                 <td class="text-center">
                                     <?php
                                     echo $this->Html->link(

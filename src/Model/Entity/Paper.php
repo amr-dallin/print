@@ -17,6 +17,7 @@ use Cake\ORM\Entity;
  * @property int $unit_id
  * @property float $quantity
  * @property string $title
+ * @property float|null $thickness
  * @property string|null $description
  * @property \Cake\I18n\FrozenTime $date_created
  * @property \Cake\I18n\FrozenTime|null $date_modified
@@ -48,6 +49,7 @@ class Paper extends Entity
         'unit_id' => true,
         'quantity' => true,
         'title' => true,
+        'thickness' => true,
         'description' => true,
         'date_created' => true,
         'date_modified' => true,

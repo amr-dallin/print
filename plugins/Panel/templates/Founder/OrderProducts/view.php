@@ -27,12 +27,19 @@ echo $this->element('press_navigation', ['menu' => $menu]);
 $this->end();
 
 echo $this->Html->css(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle'], ['block' => true]);
-echo $this->Html->script(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle'], ['block' => true]);
+echo $this->Html->script([
+    'datagrid/datatables/datatables.bundle',
+    'formplugins/select2/select2.bundle',
+    'clipboard.min'
+], ['block' => true]);
 ?>
 
 <?php $this->start('script-code'); ?>
 <script>
 $(document).ready(function() {
+    $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+    new ClipboardJS('.copy');
+
     $('#js-product-process-postprint-action-contractor-id').select2({
         dropdownParent: $('#js-process-product-postprint-action-create-modal')
     });
@@ -142,7 +149,10 @@ $(document).ready(function() {
 
 <div class="subheader">
     <h1 class="subheader-title">
-        <i class="subheader-icon fal fa-bags-shopping"></i> <?= __d('panel', 'Product #{0}', h($orderProduct->unique_id)) ?>
+        <i class="subheader-icon fal fa-bags-shopping"></i> <?= __d('panel', 'Product #') ?>
+        <span class="cursor-pointer copy shadow-hover" data-toggle="tooltip" data-trigger="hover" data-original-title="<?= __d('panel', 'Copy') ?>" data-clipboard-text="<?= h($orderProduct->unique_id) ?>">
+            <?= h($orderProduct->unique_id) ?>
+        </span>
         <small>
             <?php
             echo $this->Html->link(
@@ -356,7 +366,7 @@ $(document).ready(function() {
                 <div class="panel-content">
                     <div class="row">
                         <div class="col-md-8">
-                            <dl class="row fs-xl mb-0">
+                            <dl class="row fs-xl">
                                 <dt class="col-md-3 col-lg-2"><?= __d('panel', 'Product type') ?></dt>
                                 <dd class="col-md-9 col-lg-10">
                                     <?php
@@ -465,6 +475,13 @@ $(document).ready(function() {
                             </div>
                             <?php endif; ?>
                         </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <div class="h4"><?= __d('panel', 'Product file locations') ?></div>
+                        <span class="h2 cursor-pointer copy shadow-hover" data-toggle="tooltip" data-trigger="hover" data-original-title="<?= __d('panel', 'Copy') ?>" data-clipboard-text="\\192.168.1.10\Storage\<?= $orderProduct->order->unique_id ?>\<?= $orderProduct->unique_id ?>">
+                            \\192.168.1.10\Storage\<?= $orderProduct->order->unique_id ?>\<?= $orderProduct->unique_id ?>
+                        </span>
                     </div>
 
                     <?php if (!empty($orderProduct->cost_price)): ?>

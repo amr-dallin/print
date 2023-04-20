@@ -23,12 +23,19 @@ echo $this->element('press_navigation', ['menu' => $menu]);
 $this->end();
 
 echo $this->Html->css(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle'], ['block' => true]);
-echo $this->Html->script(['datagrid/datatables/datatables.bundle', 'formplugins/select2/select2.bundle'], ['block' => true]);
+echo $this->Html->script([
+    'datagrid/datatables/datatables.bundle',
+    'formplugins/select2/select2.bundle',
+    'clipboard.min'
+], ['block' => true]);
 ?>
 
 <?php $this->start('script-code'); ?>
 <script>
 $(document).ready(function() {
+    $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+    new ClipboardJS('.copy');
+
     $('.datatable').dataTable({
         responsive: {
             details: {
@@ -106,7 +113,10 @@ $(document).ready(function() {
 
 <div class="subheader">
     <h1 class="subheader-title">
-        <i class="subheader-icon fal fa-bags-shopping"></i> <?= __d('panel', 'Order #{0}', h($order->unique_id)) ?>
+        <i class="subheader-icon fal fa-bags-shopping"></i> <?= __d('panel', 'Order #') ?>
+        <span class="cursor-pointer copy shadow-hover" data-toggle="tooltip" data-trigger="hover" data-original-title="<?= __d('panel', 'Copy') ?>" data-clipboard-text="<?= h($order->unique_id) ?>">
+            <?= h($order->unique_id) ?>
+        </span>
     </h1>
 </div>
 
@@ -706,7 +716,11 @@ $(document).ready(function() {
                                                     }
                                                     ?>
                                                 </td>
-                                                <td class="text-center"><?= h($orderProduct->unique_id) ?></td>
+                                                <td class="text-center">
+                                                <span class="cursor-pointer copy shadow-hover" data-toggle="tooltip" data-trigger="hover" data-original-title="<?= __d('panel', 'Copy') ?>" data-clipboard-text="<?= h($orderProduct->unique_id) ?>">
+                                                    <?= h($orderProduct->unique_id) ?>
+                                                </span>
+                                                </td>
                                                 <td class="text-center"><?= $this->OrderProducts->typeIcon($orderProduct->type) ?></td>
                                                 <td><?= h($orderProduct->title) ?></td>
                                                 <td class="text-center"><?= h($orderProduct->product_type->title) ?></td>

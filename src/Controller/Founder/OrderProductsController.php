@@ -204,7 +204,7 @@ class OrderProductsController extends AppController
             $this->Flash->error(__('The order product could not be saved. Please, try again.'));
         }
             
-        return $this->redirect(['controller' => 'OrderProducts', 'action' => 'view', h($orderProduct->id)]);
+        return $this->redirect(['controller' => 'Orders', 'action' => 'view', h($orderProduct->order_id)]);
     }
 
     public function changeStatus(OrderProductsService $orderProducts, $id)

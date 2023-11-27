@@ -35,7 +35,8 @@ class ProcessLaserMachinesHelper extends Helper
     {
         $costPrice = (string)0;
         switch ($processLaserMachine->print_type) {
-            case PROCESS_LASER_MACHINES_PRINT_TYPE_4_0 || PROCESS_LASER_MACHINES_PRINT_TYPE_4_4:
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_4_0:
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_4_4:
                 $costPrice = $this->fullColorCalculate(
                     $processLaserMachine->laser_machine_rate,
                     [
@@ -47,7 +48,8 @@ class ProcessLaserMachinesHelper extends Helper
                     ]
                 );
                 break;
-            case PROCESS_LASER_MACHINES_PRINT_TYPE_1_0 || PROCESS_LASER_MACHINES_PRINT_TYPE_1_1:
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_1_0:
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_1_1:
                 $costPrice = $this->monochromeCalculate(
                     $processLaserMachine->laser_machine_rate,
                     [
@@ -90,7 +92,7 @@ class ProcessLaserMachinesHelper extends Helper
     private function extra($price, $extra): string
     {
         if ((null !== $extra) && $extra > 0) {
-            $price = bcadd($price, bcdiv(bcmul($price, (string)$extra, 4), (string)100, 4));
+            $price = bcadd($price, bcdiv(bcmul($price, (string)$extra, 4), (string)100, 4), 4);
         }
 
         return $price;

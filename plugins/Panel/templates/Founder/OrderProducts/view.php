@@ -1028,24 +1028,57 @@ $(document).ready(function() {
                                                                 </div>
                                                                 <div class="col-md-6 mb-3">
                                                                     <?php
-                                                                    echo $this->Form->control('process_laser_machine.pouring', [
-                                                                        'id' => 'js-product-process-process-laser-machine-pouring',
-                                                                        'label' => __d('panel', 'Pouring, %') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
+                                                                    echo $this->Form->control('process_laser_machine.laser_machine_rate_id', [
+                                                                        'label' => __d('panel', 'Printer') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
+                                                                        'empty' => __d('panel', 'Select printer'),
+                                                                        'escape' => false,
+                                                                        'id' => 'js-product-process-process-laser-machine-laser-machine-rate-id',
+                                                                        'options' => $laserMachines
+                                                                    ]);
+                                                                    ?>
+                                                                </div>
+                                                            </div>
+                                                            <div class="panel-tag mt-2 mb-2 p-2">
+                                                                <?= __d('panel', 'CMYK fill percentage, %') ?>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3 mb-3">
+                                                                    <?php
+                                                                    echo $this->Form->control('process_laser_machine.pouring_c', [
+                                                                        'id' => 'js-product-process-process-laser-machine-pouring_c',
+                                                                        'label' => __d('panel', 'Cyan') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
+                                                                        'escape' => false
+                                                                    ]);
+                                                                    ?>
+                                                                </div>
+                                                                <div class="col-md-3 mb-3">
+                                                                    <?php
+                                                                    echo $this->Form->control('process_laser_machine.pouring_m', [
+                                                                        'id' => 'js-product-process-process-laser-machine-pouring_m',
+                                                                        'label' => __d('panel', 'Magenta') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
+                                                                        'escape' => false
+                                                                    ]);
+                                                                    ?>
+                                                                </div>
+                                                                <div class="col-md-3 mb-3">
+                                                                    <?php
+                                                                    echo $this->Form->control('process_laser_machine.pouring_y', [
+                                                                        'id' => 'js-product-process-process-laser-machine-pouring_y',
+                                                                        'label' => __d('panel', 'Yellow') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
+                                                                        'escape' => false
+                                                                    ]);
+                                                                    ?>
+                                                                </div>
+                                                                <div class="col-md-3 mb-3">
+                                                                    <?php
+                                                                    echo $this->Form->control('process_laser_machine.pouring_k', [
+                                                                        'id' => 'js-product-process-process-laser-machine-pouring_k',
+                                                                        'label' => __d('panel', 'Black') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
                                                                         'escape' => false
                                                                     ]);
                                                                     ?>
                                                                 </div>
                                                             </div>
-
-                                                            <?php
-                                                            echo $this->Form->control('process_laser_machine.laser_machine_rate_id', [
-                                                                'label' => __d('panel', 'Printer') . $this->Html->tag('span' , '*', ['class' => 'ml-1 text-danger']),
-                                                                'empty' => __d('panel', 'Select printer'),
-                                                                'escape' => false,
-                                                                'id' => 'js-product-process-process-laser-machine-laser-machine-rate-id',
-                                                                'options' => $laserMachines
-                                                            ]);
-                                                            ?>
 
                                                             <hr />
                                                         </div>

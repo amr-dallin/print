@@ -16,7 +16,10 @@ use Cake\ORM\Entity;
  * @property int $width
  * @property int $height
  * @property string $print_type
- * @property float $pouring
+ * @property float $pouring_c
+ * @property float $pouring_m
+ * @property float $pouring_y
+ * @property float $pouring_k
  * @property \Cake\I18n\FrozenTime $date_created
  * @property \Cake\I18n\FrozenTime|null $date_modified
  *
@@ -42,22 +45,46 @@ class ProcessLaserMachine extends Entity
         'width' => true,
         'height' => true,
         'print_type' => true,
-        'pouring' => true,
+        'pouring_c' => true,
+        'pouring_m' => true,
+        'pouring_y' => true,
+        'pouring_k' => true,
         'date_created' => true,
         'date_modified' => true,
         'laser_machine_rate' => true,
         'product_process' => true,
     ];
 
-    protected $_virtual = ['pouring_title', 'size'];
+    protected $_virtual = [
+        'pouring_c_title',
+        'pouring_m_title',
+        'pouring_y_title',
+        'pouring_k_title',
+        'size'
+    ];
 
     protected function _getSize()
     {
         return __('{0} x {1} mm', $this->width, $this->height);
     }
 
-    protected function _getPouringTitle()
+    protected function _getPouringCTitle()
     {
-        return $this->pouring . '%';
+        return $this->pouring_c . '%';
+    }
+
+    protected function _getPouringMTitle()
+    {
+        return $this->pouring_m . '%';
+    }
+
+    protected function _getPouringYTitle()
+    {
+        return $this->pouring_y . '%';
+    }
+
+    protected function _getPouringKTitle()
+    {
+        return $this->pouring_k . '%';
     }
 }

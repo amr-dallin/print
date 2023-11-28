@@ -104,11 +104,6 @@ class ProcessLaserMachinesTable extends Table
             ->requirePresence('print_type', 'create')
             ->notEmptyString('print_type');
 
-        $validator
-            ->numeric('pouring')
-            ->requirePresence('pouring', 'create')
-            ->notEmptyString('pouring');
-
         return $validator;
     }
 

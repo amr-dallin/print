@@ -34,6 +34,18 @@ class ProcessLaserMachinesHelper extends Helper
     public function costPrice($processLaserMachine): string
     {
         $costPrice = (string)0;
+        if (null !== $processLaserMachine->pouring) {
+            $costPrice = $this->oldCostPrice($processLaserMachine);
+        } else {
+            $costPrice = $this->newCostPrice($processLaserMachine);
+        }
+
+        return $costPrice;
+    }
+
+    private function oldCostPrice($processLaserMachine): string
+    {
+        $costPrice = (string)0;
         switch ($processLaserMachine->print_type) {
             case PROCESS_LASER_MACHINES_PRINT_TYPE_4_0:
             case PROCESS_LASER_MACHINES_PRINT_TYPE_4_4:
@@ -179,5 +191,125 @@ class ProcessLaserMachinesHelper extends Helper
             (string)$laserMachineRate->default_size,
             4
         );
+    }
+
+
+
+
+
+    private function newCostPrice($processLaserMachine): string
+    {
+        $costPrice = (string)0;
+        $size = (string)0;
+        switch ($processLaserMachine->print_type) {
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_4_0:
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_4_4:
+                $size = $this->newPlainSize($processLaserMachine);
+                $costPrice = $this->newFullColorCalculate(
+                    $processLaserMachine,
+                    $processLaserMachine->laser_machine_rate
+                );
+                break;
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_1_0:
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_1_1:
+                $size = $this->newPlainSize($processLaserMachine);
+                $costPrice = $this->newMonochromeCalculate(
+                    $processLaserMachine,
+                    $processLaserMachine->laser_machine_rate
+                );
+                break;
+            case PROCESS_LASER_MACHINES_PRINT_TYPE_4_1:
+                $size = $this->newColorful($processLaserMachine);
+                $costPriceFullColor = $this->newFullColorCalculate(
+                    $processLaserMachine,
+                    $processLaserMachine->laser_machine_rate
+                );
+                $costPriceMonochrome = $this->newMonochromeCalculate(
+                    $processLaserMachine,
+                    $processLaserMachine->laser_machine_rate
+                );
+                $costPrice = bcadd($costPriceFullColor, $costPriceMonochrome, 4);
+                break;
+        }
+
+        $costPrice = $this->newRatioSize($costPrice, $size, $processLaserMachine->laser_machine_rate->default_size);
+        $costPrice = $this->newExtra($costPrice, $processLaserMachine->laser_machine_rate->extra);
+
+        return $costPrice;
+    }
+
+    private function newFullColorCalculate($processLaserMachine, $laserMachineRate): string
+    {
+        $pouringC = bcdiv((string)$processLaserMachine->pouring_c, (string)$laserMachineRate->default_pouring, 4);
+        $pouringM = bcdiv((string)$processLaserMachine->pouring_m, (string)$laserMachineRate->default_pouring, 4);
+        $pouringY = bcdiv((string)$processLaserMachine->pouring_y, (string)$laserMachineRate->default_pouring, 4);
+        $pouringK = bcdiv((string)$processLaserMachine->pouring_k, (string)$laserMachineRate->default_pouring, 4);
+
+        $tonerC = bcmul((string)$laserMachineRate->toner_c_p, (string)$pouringC, 4);
+        $tonerM = bcmul((string)$laserMachineRate->toner_m_p, (string)$pouringM, 4);
+        $tonerY = bcmul((string)$laserMachineRate->toner_y_p, (string)$pouringY, 4);
+        $tonerK = bcmul((string)$laserMachineRate->toner_k_p, (string)$pouringK, 4);
+
+        $price = (string)0;
+        $price = bcadd($price, (string)$tonerC, 4);
+        $price = bcadd($price, (string)$tonerM, 4);
+        $price = bcadd($price, (string)$tonerY, 4);
+        $price = bcadd($price, (string)$tonerK, 4);
+        $price = bcadd($price, (string)$laserMachineRate->drum_c_p, 4);
+        $price = bcadd($price, (string)$laserMachineRate->drum_m_p, 4);
+        $price = bcadd($price, (string)$laserMachineRate->drum_y_p, 4);
+        $price = bcadd($price, (string)$laserMachineRate->drum_k_p, 4);
+        $price = bcadd($price, (string)$laserMachineRate->developer_c_p, 4);
+        $price = bcadd($price, (string)$laserMachineRate->developer_m_p, 4);
+        $price = bcadd($price, (string)$laserMachineRate->developer_y_p, 4);
+        $price = bcadd($price, (string)$laserMachineRate->developer_k_p, 4);
+
+        return $price;
+    }
+
+    private function newMonochromeCalculate($processLaserMachine, $laserMachineRate): string
+    {
+        $pouringK = bcdiv((string)$processLaserMachine->pouring_k, (string)$laserMachineRate->default_pouring, 4);
+
+        $tonerK = bcmul((string)$laserMachineRate->toner_k_p, (string)$pouringK, 4);
+
+        $price = (string)0;
+        $price = bcadd($price, (string)$tonerK, 4);
+        $price = bcadd($price, (string)$laserMachineRate->drum_k_p, 4);
+        $price = bcadd($price, (string)$laserMachineRate->developer_k_p, 4);
+
+        return $price;
+    }
+
+    private function newRatioSize($price, $size, $defaultSize): string
+    {
+        $ratioSize = bcdiv((string)$size, (string)$defaultSize, 4);
+
+        return bcmul((string)$price, (string)$ratioSize, 4);
+    }
+
+    private function newPlainSize($processLaserMachine)
+    {
+        return $processLaserMachine->width *
+            $processLaserMachine->height *
+            $processLaserMachine->number_of_pages *
+            $processLaserMachine->number_of_copies;
+    }
+
+    private function newColorful($processLaserMachine)
+    {
+        return $processLaserMachine->width *
+            $processLaserMachine->height *
+            ($processLaserMachine->number_of_pages / 2) *
+            $processLaserMachine->number_of_copies;
+    }
+
+    private function newExtra($price, $extra): string
+    {
+        if ((null !== $extra) && $extra > 0) {
+            $price = bcadd($price, bcdiv(bcmul($price, (string)$extra, 4), (string)100, 4), 4);
+        }
+
+        return $price;
     }
 }

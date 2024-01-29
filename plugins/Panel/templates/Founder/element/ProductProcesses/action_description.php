@@ -1,10 +1,10 @@
 <dl class="row">
-    <dt class="col-md-2 col-lg-1"><?= __d('panel', 'Group') ?></dt>
-    <dd class="col-md-10 col-lg-11"><?= $this->ProductProcesses->groupTypeIcon($productProcess->group_type) ?></dd>
+    <dt class="col-md-3 col-lg-2"><?= __d('panel', 'Group') ?></dt>
+    <dd class="col-md-9 col-lg-10"><?= $this->ProductProcesses->groupTypeIcon($productProcess->group_type) ?></dd>
 
     <?php if (!empty($productProcess->description)): ?>
-    <dt class="col-md-2 col-lg-1"><?= __d('panel', 'Description') ?></dt>
-    <dd class="col-md-10 col-lg-11"><?= $productProcess->description ?></dd>
+    <dt class="col-md-3 col-lg-2"><?= __d('panel', 'Description') ?></dt>
+    <dd class="col-md-9 col-lg-10"><?= $productProcess->description ?></dd>
     <?php endif; ?>
 </dl>
 <div class="table-responsive-lg">

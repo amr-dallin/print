@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Command\FixProcessLaserMachinesCommand;
 use App\Service\ActionPricesService;
 use App\Service\ConsumablePricesService;
 use App\Service\ExpensesService;
@@ -203,6 +204,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $container->add(ProductProcessesService::class);
         $container->add(ProcessActionsService::class);
         $container->add(ProcessConsumablesService::class);
+        $container
+            ->add(FixProcessLaserMachinesCommand::class)
+            ->addArgument(ProcessLaserMachinesService::class);
         $container->add(ProcessLaserMachinesService::class);
         $container->add(ProcessPapersService::class);
         $container->add(PurchasesService::class);

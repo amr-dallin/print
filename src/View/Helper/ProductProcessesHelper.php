@@ -11,7 +11,7 @@ use Cake\View\View;
  */
 class ProductProcessesHelper extends Helper
 {
-    public $helpers = ['Html', 'Number', 'Orders', 'ProcessActions', 'ProcessConsumables', 'ProcessLaserMachines', 'ProcessPapers'];
+    public $helpers = ['Html', 'Number', 'Orders', 'ProcessActions', 'ProcessConsumables', 'ProcessPapers'];
 
     /**
      * Default configuration.
@@ -182,21 +182,6 @@ class ProductProcessesHelper extends Helper
         return (isset($productProcess->process_laser_machine) && !empty($productProcess->process_laser_machine)) ? true : false;
     }
 
-    public function processCostPrice($productProcess)
-    {
-        if ($this->isOutsourcing($productProcess->type)) {
-            return h($productProcess->cost_price);
-        }
-
-        if ($this->isActionProcess($productProcess)) {
-            return $this->ProcessActions->costPrice($productProcess->process_action);
-        }
-
-        if ($this->isLaserMachineProcess($productProcess)) {
-            return $this->ProcessLaserMachines->costPrice($productProcess->process_laser_machine);
-        }
-    }
-
     public function existPapers($productProcess)
     {
         return (!empty($productProcess->process_papers)) ? true : false;
@@ -209,14 +194,7 @@ class ProductProcessesHelper extends Helper
 
     public function totalCostPrice($productProcess)
     {
-        $processCostPrice = (string)0;
-        if ($this->isOutsourcing($productProcess->type)) {
-            $processCostPrice = (string)$productProcess->cost_price;
-        } elseif ($this->isActionProcess($productProcess)) {
-            $processCostPrice = $this->ProcessActions->costPrice($productProcess->process_action);
-        } elseif ($this->isLaserMachineProcess($productProcess)) {
-            $processCostPrice = $this->ProcessLaserMachines->costPrice($productProcess->process_laser_machine);
-        }
+        $processCostPrice = (string)$productProcess->cost_price;
 
         $papersCostPrice = (string)0;
         if ($this->existPapers($productProcess)) {

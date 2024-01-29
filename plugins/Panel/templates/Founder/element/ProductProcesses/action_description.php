@@ -36,7 +36,7 @@
                 <td class="text-right fw-700">
                     <?php
                     echo $this->Number->currency(
-                        $this->ProcessActions->costPrice($productProcess->process_action),
+                        $productProcess->cost_price,
                         'UZS'
                     );
                     ?>

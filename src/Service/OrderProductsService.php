@@ -30,10 +30,8 @@ class OrderProductsService
         }
 
         if ($this->getTableLocator()->get('OrderProducts')->save($orderProduct)) {
-            $orders = new OrdersService();
-            return $orders->status($orderProduct->order_id);
+            return (new OrdersService())->status($orderProduct->order_id);
         }
-
         return false;
     }
 
@@ -63,14 +61,26 @@ class OrderProductsService
         if ($this->getTableLocator()->get('OrderProducts')->save($orderProduct)) {
             (new OrdersService())->status($orderProduct->order_id);
 
+            // Если продукт выполняется на стороне, себестоимость указывается сразу,
+            // поэтому здесь это условие.
             if ($orderProduct->type === ORDER_PRODUCTS_TYPE_OUTSOURCING) {
                 (new OrdersService())->cost($orderProduct->order_id);
             }
-
             return $orderProduct;
         }
-
         return false;
+    }
+
+    public function cost($orderProductId)
+    {
+        $orderProduct = $this->getTableLocator()->get('OrderProducts')->findById($orderId)
+            ->contain([
+                'ProductProcesses' => [
+                    'ProcessConsumables',
+                    'ProcessPapers'
+                ]
+            ])
+            ->firstOrFail();
     }
 
     public function setTypeInfo($orderProduct)

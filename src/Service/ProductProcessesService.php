@@ -41,8 +41,7 @@ class ProductProcessesService
                 })
                 ->firstOrFail();
 
-            $orders = new OrdersService();
-            return $orders->status($order->id);
+            return (new OrdersService())->status($order->id);
         }
 
         return false;
@@ -73,6 +72,22 @@ class ProductProcessesService
         }
 
         return false;
+    }
+
+    public function delete($productProcess)
+    {
+        return $this->getTableLocator()->get('ProductProcesses')->delete($productProcess);
+
+        $order = $this->getTableLocator()->get('Orders')->find()
+            ->innerJoinWith('OrderProducts', function ($q) use ($productProcess) {
+                return $q->where([
+                    'OrderProducts.id' => $productProcess->order_product_id
+                ]);
+            })
+            ->firstOrFail();
+
+        (new OrdersService())->status($order->id);
+        (new OrdersService())->cost($order->id);
     }
 
     private function setCostPrice($productProcess)

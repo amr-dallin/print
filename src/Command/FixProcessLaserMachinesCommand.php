@@ -16,7 +16,7 @@ class FixProcessLaserMachinesCommand extends Command
 {
     protected $defaultTable = 'ProcessLaserMachines';
 
-    public function __construct(public ProcessLaserMachinesService $processLaserMachineService)
+    public function __construct(ProcessLaserMachinesService $processLaserMachineService)
     {
     }
 

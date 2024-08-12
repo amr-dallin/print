@@ -33,7 +33,7 @@ $(document).ready(function() {
             }
         },
         columnDefs: [{
-            targets: [0, 4],
+            targets: [0, 7],
             orderable: false
         }],
         order: [[1, 'asc']]
@@ -58,8 +58,11 @@ $(document).ready(function() {
                             <tr>
                                 <th class="all"></th>
                                 <th class="all text-center"><?= __d('panel', 'Unique ID') ?></th>
-                                <th class="all"><?= __d('panel', 'Title') ?></th>
+                                <th class="all text-center"><?= __d('panel', 'Type') ?></th>
+                                <th class="all"><?= __d('panel', 'Client') ?></th>
                                 <th class="all text-center"><?= __d('panel', 'Products') ?></th>
+                                <th class="all"><?= __d('panel', 'Date accepted') ?></th>
+                                <th class="all"><?= __d('panel', 'Deadline') ?></th>
                                 <th class="all"></th>
                             </tr>
                         </thead>
@@ -80,8 +83,37 @@ $(document).ready(function() {
                                     ?>
                                 </td>
                                 <td class="text-center"><?= h($order->unique_id) ?></td>
-                                <td><?= h($order->title) ?></td>
+                                <td class="text-center">
+                                    <?php
+                                    if (null !== $order->client) {
+                                        echo $this->Clients->typeIcon($order->client->type);
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    if (null !== $order->client) {
+                                        echo $this->Html->link(h($order->client->title),
+                                            ['controller' => 'Clients', 'action' => 'view', h($order->client->id)]
+                                        );
+                                    }
+                                    ?>
+                                </td>
                                 <td class="text-center"><?= count($order->order_products) ?></td>
+                                <td>
+                                    <?php
+                                    if (null !== $order->date_accepted) {
+                                        echo $order->date_accepted->format('d.m.Y H:i:s');
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    if (null !== $order->date_deadline) {
+                                        echo $order->date_deadline->format('d.m.Y H:i:s');
+                                    }
+                                    ?>
+                                </td>
                                 <td class="text-center">
                                     <?php
                                     echo $this->Html->link(

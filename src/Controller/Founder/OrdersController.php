@@ -22,7 +22,10 @@ class OrdersController extends AppController
     public function indexEstimated()
     {
         $orders = $this->Orders->find('estimated')
-            ->contain('OrderProducts');
+            ->contain([
+                'Clients',
+                'OrderProducts'
+            ]);
 
         $this->set('orders', $orders);
     }

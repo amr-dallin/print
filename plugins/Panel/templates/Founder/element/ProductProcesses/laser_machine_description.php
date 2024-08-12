@@ -29,7 +29,14 @@
                 <th class="text-center"><?= __d('panel', 'Pages') ?></th>
                 <th class="text-center"><?= __d('panel', 'Size') ?></th>
                 <th class="text-center"><?= __d('panel', 'Chromaticity') ?></th>
-                <th class="text-center"><?= __d('panel', 'Pouring') ?></th>
+
+                <?php if ($this->ProcessLaserMachines->isFullColor($productProcess->process_laser_machine)): ?>
+                <th class="text-center"><?= __d('panel', 'C') ?></th>
+                <th class="text-center"><?= __d('panel', 'M') ?></th>
+                <th class="text-center"><?= __d('panel', 'Y') ?></th>
+                <?php endif; ?>
+
+                <th class="text-center"><?= __d('panel', 'K') ?></th>
                 <th class="text-right"><?= __d('panel', 'Total') ?></th>
             </tr>
         </thead>
@@ -39,11 +46,18 @@
                 <td class="text-center"><?= h($productProcess->process_laser_machine->number_of_pages) ?></td>
                 <td class="text-center"><?= h($productProcess->process_laser_machine->size) ?></td>
                 <td class="text-center"><?= $this->ProcessLaserMachines->listOfPrintTypes()[$productProcess->process_laser_machine->print_type] ?></td>
-                <td class="text-center"><?= h($productProcess->process_laser_machine->pouring_title) ?></td>
+
+                <?php if ($this->ProcessLaserMachines->isFullColor($productProcess->process_laser_machine)): ?>
+                <td class="text-center"><?= h($productProcess->process_laser_machine->pouring_c_title) ?></td>
+                <td class="text-center"><?= h($productProcess->process_laser_machine->pouring_m_title) ?></td>
+                <td class="text-center"><?= h($productProcess->process_laser_machine->pouring_y_title) ?></td>
+                <?php endif; ?>
+                
+                <td class="text-center"><?= h($productProcess->process_laser_machine->pouring_k_title) ?></td>
                 <td class="text-right fw-700">
                     <?php
                     echo $this->Number->currency(
-                        $this->ProcessLaserMachines->costPrice($productProcess->process_laser_machine),
+                        $productProcess->cost_price,
                         'UZS'
                     );
                     ?>

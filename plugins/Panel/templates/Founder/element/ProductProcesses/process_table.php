@@ -312,7 +312,7 @@ $(document).ready(function() {
                 <td class="text-right">
                     <?php
                     echo $this->Number->currency(
-                        $this->ProductProcesses->processCostPrice($productProcess),
+                        $productProcess->cost_price,
                         'UZS'
                     );
                     ?>

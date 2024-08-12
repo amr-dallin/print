@@ -41,8 +41,7 @@ class ProductProcessesService
                 })
                 ->firstOrFail();
 
-            $orders = new OrdersService();
-            return $orders->status($order->id);
+            return (new OrdersService())->status($order->id);
         }
 
         return false;

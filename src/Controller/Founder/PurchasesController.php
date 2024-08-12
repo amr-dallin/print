@@ -36,24 +36,40 @@ class PurchasesController extends AppController
     public function view($id = null)
     {
         $purchase = $this->Purchases->get($id, [
-            'contain' => [
-                'Suppliers',
-                'PurchaseEntities' => [
-                    'Consumables' => [
-                        'ConsumableCategories',
-                        'Units'
-                    ],
-                    'Papers' => [
-                        'InitialUnits',
-                        'PaperColors',
-                        'PaperDensities',
-                        'PaperFormats',
-                        'PaperTypes',
-                        'Units'
-                    ]
-                ]
-            ]
+            'contain' => ['Suppliers']
         ]);
+
+        $purchaseEntitiesConsumables = $this->Purchases->PurchaseEntities->find()
+            ->where([
+                'purchase_id' => $id, 
+                'model' => 'Consumables'
+            ])
+            ->contain([
+                'Consumables' => [
+                    'ConsumableCategories',
+                    'Units'
+                ]
+            ])
+            ->toArray();
+
+        $purchaseEntitiesPapers = $this->Purchases->PurchaseEntities->find()
+            ->where([
+                'purchase_id' => $id, 
+                'model' => 'Papers'
+            ])
+            ->contain([
+                'Papers' => [
+                    'InitialUnits',
+                    'PaperColors',
+                    'PaperDensities',
+                    'PaperFormats',
+                    'PaperTypes',
+                    'Units'
+                ]
+            ])
+            ->toArray();
+
+        $purchase->set('purchase_entities', array_merge($purchaseEntitiesConsumables, $purchaseEntitiesPapers));
 
         $consumables = $this->getTableLocator()->get('Consumables')
             ->find('list', [

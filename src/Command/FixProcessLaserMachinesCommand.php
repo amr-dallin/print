@@ -58,9 +58,6 @@ class FixProcessLaserMachinesCommand extends Command
                         $processLaserMachine->set('pouring_k', $processLaserMachine->pouring);
                         break;
                 }
-                $processLaserMachine->set('cost_price', $this->processLaserMachineService->getOldCostPrice($processLaserMachine));
-            } else {
-                $processLaserMachine->set('cost_price', $this->processLaserMachineService->getCostPrice($processLaserMachine));
             }
 
             if ($this->fetchTable()->save($processLaserMachine)) {

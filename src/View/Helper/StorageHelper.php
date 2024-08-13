@@ -24,11 +24,12 @@ class StorageHelper extends Helper
     {
         $quantity = (string)0;
         foreach($entity->purchase_entities as $purchaseEntity) {
-            $quantity = bcadd($quantity, (string)$purchaseEntity->quantity);
+            $quantity = bcadd($quantity, (string)$purchaseEntity->quantity, 2);
         }
 
+        $quantityExpense = (string)0;
         foreach($entity->expenses as $expense) {
-            $quantity = bcsub($quantity, (string)$expense->quantity);
+            $quantity = bcsub($quantity, (string)$expense->quantity, 2);
         }
 
         return $quantity;

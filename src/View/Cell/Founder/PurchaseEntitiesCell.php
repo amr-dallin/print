@@ -40,28 +40,48 @@ class PurchaseEntitiesCell extends Cell
 
     public function last()
     {
-        $purchaseEntities = $this->fetchTable('PurchaseEntities')->find()
+        $purchaseEntitiesList = $this->fetchTable('PurchaseEntities')->find()
             ->innerJoinWith('Purchases', function ($q) {
                 return $q->find('approved');
             })
-            ->contain([
-                'Consumables' => [
-                    'ConsumableCategories',
-                    'Units'
-                ],
-                'Papers' => [
-                    'InitialUnits',
-                    'PaperColors',
-                    'PaperDensities',
-                    'PaperFormats',
-                    'PaperTypes',
-                    'Units'
-                ],
-                'Purchases'
-            ])
             ->order(['Purchases.date_purchased' => 'DESC'])
             ->limit($this->limit);
 
-        $this->set('purchaseEntities', $purchaseEntities->toArray());
+        $purchaseEntities = [];
+        foreach($purchaseEntitiesList as $purchaseEntityList) {
+            $purchaseEntity = $this->fetchTable('PurchaseEntities')
+                ->findById($purchaseEntityList->id)
+                ->contain('Purchases');
+
+            switch($purchaseEntityList->model) {
+                case 'Consumables':
+                    $purchaseEntity = $purchaseEntity->contain([
+                        'Consumables' => [
+                            'ConsumableCategories',
+                            'Units'
+                        ]
+                    ]);
+                    break;
+                case 'Papers':
+                    $purchaseEntity = $purchaseEntity->contain([
+                        'Papers' => [
+                            'InitialUnits',
+                            'PaperColors',
+                            'PaperDensities',
+                            'PaperFormats',
+                            'PaperTypes',
+                            'Units'
+                        ]
+                    ]);
+                    break;
+            }
+
+            $purchaseEntity = $purchaseEntity->first();
+            if (!empty($purchaseEntity)) {
+                $purchaseEntities[] = $purchaseEntity;
+            }
+        }
+
+        $this->set('purchaseEntities', $purchaseEntities);
     }
 }

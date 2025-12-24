@@ -257,7 +257,7 @@ $(document).ready(function() {
                                     <?php
                                     echo $this->Form->postLink(
                                         $this->Html->tag('i', '', ['class' => 'fal fa-trash']),
-                                        $this->Url->build(['controller' => 'PurchaseEntities', 'action' => 'delete', h($expense->id)]),
+                                        $this->Url->build(['controller' => 'Expenses', 'action' => 'delete', h($expense->id)]),
                                         [
                                             'class' => 'color-danger-900',
                                             'data-title' => __d('panel', 'Are you sure you want to delete the expense?'),

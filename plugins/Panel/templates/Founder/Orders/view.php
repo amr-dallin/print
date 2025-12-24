@@ -926,7 +926,7 @@ $(document).ready(function() {
                                         <div class="row fs-xl">
                                             <div class="col-lg-4 mb-5 mb-lg-0">
                                                 <div class="fw-700 mb-2"><?= __d('panel', 'Executor') ?>:</div>
-                                                <div class="mb-3"><?= __d('panel', 'Akhmetshin M.R.') ?></div>
+                                                <div class="mb-3">___________________________________</div>
                                                 <div class="">___________________________________</div>
                                             </div>
                                             <?php if($this->Orders->specifiedClient($order)): ?>

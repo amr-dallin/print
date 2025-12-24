@@ -92,7 +92,7 @@
         <tr>
             <td style="width: 70%;">
                 <div class="fw-700 mb-2"><?= __d('panel', 'Executor') ?>:</div>
-                <div class="mb-3"><?= __d('panel', 'Akhmetshin M.R.') ?></div>
+                <div class="mb-3">___________________________________</div>
                 <div>___________________________________</div>
             </td>
             <td style="width: 30%;">

@@ -91,8 +91,8 @@
     <table class="w-100 fs-lg">
         <tr>
             <td style="width: 70%;">
-                <div class="fw-700 mb-2"><?= __d('panel', 'Executor') ?>:</div>
-                <div class="mb-3">___________________________________</div>
+                <div class="fw-700 mb-3"><?= __d('panel', 'Executor') ?>:</div>
+                <div class="mb-2">___________________________________</div>
                 <div>___________________________________</div>
             </td>
             <td style="width: 30%;">
